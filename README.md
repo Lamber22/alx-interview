@@ -1,5 +1,5 @@
+# Algorithm
+
+## Python
+
 Pascal's Triangle
-
-## Algorithm
-
-Python
