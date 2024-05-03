@@ -1,5 +1,1 @@
-# Algorithm
-
-## Python
-
-Pascal's Triangle
+ALX interview preparation
