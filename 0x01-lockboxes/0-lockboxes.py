@@ -12,8 +12,20 @@ def look_next_opened_box(opened_boxes):
     for index, box in opened_boxes.items():
         if box.get('status') == 'opened':
             box['status'] = 'opened/checked'
-            return box.get('keys')
-        return None
+            keys = box.get('keys')
+            for key in keys:
+                try:
+                    if opened_boxes.get(key) and opened_boxes.get(key).get('status') \
+                       == 'opened/checked':
+                        continue
+                    opened_boxes[key] = {
+                        'status': 'opened',
+                        'keys': boxes[key]
+                    }
+                except (KeyError, IndexError):
+                    continue
+            return keys
+    return None
 
 
 def can_unlock_all(boxes):
@@ -35,17 +47,7 @@ def can_unlock_all(boxes):
             }
         keys = look_next_opened_box(aux)
         if keys:
-            for key in keys:
-                try:
-                    if aux.get(key) and aux.get(key).get('status') \
-                       == 'opened/checked':
-                        continue
-                    aux[key] = {
-                        'status': 'opened',
-                        'keys': boxes[key]
-                    }
-                except (KeyError, IndexError):
-                    continue
+            continue
         elif 'opened' in [box.get('status') for box in aux.values()]:
             continue
         elif len(aux) == len(boxes):
